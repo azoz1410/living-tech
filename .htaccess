@@ -1,0 +1,14 @@
+## Encoding & Content-Type normalization (Apache)
+AddDefaultCharset UTF-8
+
+# Ensure UTF-8 for common text types without overriding mime type to text/html
+<IfModule mod_mime.c>
+  AddCharset UTF-8 .html .htm .css .js .json .md .txt .yml .yaml
+</IfModule>
+
+# Security & caching minimal (optional future):
+# <IfModule mod_headers.c>
+#   Header always set X-Content-Type-Options "nosniff"
+# </IfModule>
+
+# Don't force text/html on all files; let Apache detect correct mime type.

@@ -1,0 +1,594 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="Content-Language" content="ar" />
+  <title>إعداد GitHub - المجلس التقني</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+  <div class="app-container">
+    <!-- Sidebar Navigation -->
+    <nav class="sidebar">
+      <div class="sidebar-header">
+        <h2>المجلس التقني</h2>
+        <p class="tagline">مسار Git/GitHub للطلاب</p>
+      </div>
+      <ul class="nav-list" id="nav-list">
+        <li><a href="index.html" class="nav-link">الرئيسية</a></li>
+        <li><a href="github-setup.html" class="nav-link active">إعداد GitHub</a></li>
+        <!-- Additional pages will be added here -->
+      </ul>
+      <div class="sidebar-footer">
+        <a href="challenges/" class="btn-secondary">التحديات</a>
+        <a href="README.md" class="btn-secondary">README</a>
+      </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <div class="unit-page">
+        <!-- Page Header -->
+        <div class="unit-header">
+          <h1>🔗 إعداد GitHub والاتصال الآمن</h1>
+          <div class="unit-meta">
+            <span>⏱️ 25 دقيقة</span>
+            <span>📊 مبتدئ</span>
+            <span>🔑 Token + Clone</span>
+          </div>
+        </div>
+
+        <!-- Interactive Content -->
+        <div class="unit-content">
+          
+          <!-- Step 1: Create Token -->
+          <section class="step-section">
+            <h2>🎯 الخطوة الأولى: إنشاء Personal Access Token</h2>
+            
+            <div class="info-box">
+              <h3>لماذا نحتاج Token؟</h3>
+              <p>Personal Access Token هو بديل آمن لكلمة المرور، يمنحك تحكماً دقيقاً في الصلاحيات ويمكن إلغاؤه بسهولة عند الحاجة.</p>
+            </div>
+
+            <div class="steps-container">
+              <div class="interactive-step">
+                <div class="step-number">1</div>
+                <div class="step-content">
+                  <h4>انتقل إلى إعدادات GitHub</h4>
+                  <p>اذهب إلى <a href="https://github.com/settings/tokens" target="_blank" class="external-link">GitHub Settings > Developer settings > Personal access tokens > Tokens (classic)</a></p>
+                  <button class="btn btn-outline" onclick="markStepComplete(1)">تم ✓</button>
+                </div>
+              </div>
+
+              <div class="interactive-step">
+                <div class="step-number">2</div>
+                <div class="step-content">
+                  <h4>إنشاء Token جديد</h4>
+                  <p>اضغط على <strong>"Generate new token"</strong> ثم اختر <strong>"Generate new token (classic)"</strong></p>
+                  <button class="btn btn-outline" onclick="markStepComplete(2)">تم ✓</button>
+                </div>
+              </div>
+
+              <div class="interactive-step">
+                <div class="step-number">3</div>
+                <div class="step-content">
+                  <h4>تكوين Token</h4>
+                  <div class="token-config">
+                    <div class="config-item">
+                      <label><strong>Note (اسم Token):</strong></label>
+                      <input type="text" id="token-name" placeholder="مثال: مشاريع المجلس التقني" class="form-input">
+                    </div>
+                    <div class="config-item">
+                      <label><strong>Expiration (انتهاء الصلاحية):</strong></label>
+                      <select id="token-expiry" class="form-input">
+                        <option value="30">30 يوم (مُستحسن للتجربة)</option>
+                        <option value="90">90 يوم</option>
+                        <option value="custom">تاريخ مخصص</option>
+                        <option value="no-expiry">بلا انتهاء (غير مُستحسن)</option>
+                      </select>
+                    </div>
+                    <div class="config-item">
+                      <label><strong>الصلاحيات المطلوبة:</strong></label>
+                      <div class="scopes-list">
+                        <div class="scope-item required">
+                          <input type="checkbox" id="repo-scope" checked disabled>
+                          <label for="repo-scope"><strong>repo</strong> - الوصول الكامل للمستودعات الخاصة</label>
+                          <span class="scope-desc">يتيح قراءة وكتابة وإدارة المستودعات</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <button class="btn btn-outline" onclick="markStepComplete(3)">تم التكوين ✓</button>
+                </div>
+              </div>
+
+              <div class="interactive-step">
+                <div class="step-number">4</div>
+                <div class="step-content">
+                  <h4>حفظ Token</h4>
+                  <p>اضغط <strong>"Generate token"</strong> ثم <strong>انسخ Token فوراً</strong> واحفظه في مكان آمن!</p>
+                  <div class="warning-box">
+                    ⚠️ <strong>مهم جداً:</strong> لن تتمكن من رؤية Token مرة أخرى بعد مغادرة الصفحة!
+                  </div>
+                  <div class="token-storage">
+                    <label>الصق Token هنا للحفظ المؤقت:</label>
+                    <input type="password" id="saved-token" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx" class="form-input">
+                    <button class="btn btn-secondary" onclick="toggleTokenVisibility()">إظهار/إخفاء</button>
+                  </div>
+                  <button class="btn btn-outline" onclick="markStepComplete(4)">تم الحفظ ✓</button>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Step 2: Create Repository -->
+          <section class="step-section">
+            <h2>📁 الخطوة الثانية: إنشاء مستودع جديد</h2>
+            
+            <div class="steps-container">
+              <div class="interactive-step">
+                <div class="step-number">1</div>
+                <div class="step-content">
+                  <h4>انتقل إلى إنشاء مستودع</h4>
+                  <p>اذهب إلى <a href="https://github.com/new" target="_blank" class="external-link">github.com/new</a> أو اضغط على "+" في الأعلى ثم "New repository"</p>
+                  <button class="btn btn-outline" onclick="markStepComplete(5)">تم ✓</button>
+                </div>
+              </div>
+
+              <div class="interactive-step">
+                <div class="step-number">2</div>
+                <div class="step-content">
+                  <h4>تكوين المستودع</h4>
+                  <div class="repo-config">
+                    <div class="config-item">
+                      <label><strong>Repository name:</strong></label>
+                      <input type="text" id="repo-name" placeholder="my-first-project" class="form-input">
+                      <small>استخدم أحرف إنجليزية وأرقام وشرطات فقط</small>
+                    </div>
+                    <div class="config-item">
+                      <label><strong>الوصف (اختياري):</strong></label>
+                      <input type="text" id="repo-desc" placeholder="مشروعي الأول في المجلس التقني" class="form-input">
+                    </div>
+                    <div class="config-item">
+                      <label><strong>الخصوصية:</strong></label>
+                      <div class="radio-group">
+                        <label><input type="radio" name="repo-visibility" value="public" checked> Public (عام - يراه الجميع)</label>
+                        <label><input type="radio" name="repo-visibility" value="private"> Private (خاص - تراه أنت فقط)</label>
+                      </div>
+                    </div>
+                    <div class="config-item">
+                      <label><strong>الملفات الأولية:</strong></label>
+                      <div class="checkbox-group">
+                        <label><input type="checkbox" id="init-readme" checked> إضافة README.md</label>
+                        <label><input type="checkbox" id="init-gitignore"> إضافة .gitignore</label>
+                        <label><input type="checkbox" id="init-license"> إضافة License</label>
+                      </div>
+                    </div>
+                  </div>
+                  <button class="btn btn-outline" onclick="markStepComplete(6)">تم التكوين ✓</button>
+                </div>
+              </div>
+
+              <div class="interactive-step">
+                <div class="step-number">3</div>
+                <div class="step-content">
+                  <h4>إنشاء المستودع</h4>
+                  <p>اضغط <strong>"Create repository"</strong> وانتظر حتى يتم توجيهك لصفحة المستودع الجديد</p>
+                  <button class="btn btn-outline" onclick="markStepComplete(7)">تم الإنشاء ✓</button>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Step 3: Clone Repository -->
+          <section class="step-section">
+            <h2>💻 الخطوة الثالثة: استنساخ المستودع محلياً</h2>
+            
+            <div class="clone-generator">
+              <h3>مولد أمر الاستنساخ التفاعلي</h3>
+              <div class="generator-inputs">
+                <div class="input-group">
+                  <label>اسم المستخدم في GitHub:</label>
+                  <input type="text" id="github-username" placeholder="your-username" class="form-input">
+                </div>
+                <div class="input-group">
+                  <label>اسم المستودع:</label>
+                  <input type="text" id="clone-repo-name" placeholder="my-first-project" class="form-input">
+                </div>
+                <div class="input-group">
+                  <label>Personal Access Token:</label>
+                  <input type="password" id="clone-token" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx" class="form-input">
+                </div>
+              </div>
+              
+              <div class="generated-command">
+                <h4>الأمر المُولد:</h4>
+                <div class="command-box" id="clone-command">
+                  <code>أدخل البيانات أعلاه لتوليد الأمر</code>
+                </div>
+                <button class="btn btn-secondary" onclick="copyCloneCommand()">نسخ الأمر</button>
+              </div>
+            </div>
+
+            <div class="steps-container">
+              <div class="interactive-step">
+                <div class="step-number">1</div>
+                <div class="step-content">
+                  <h4>افتح Terminal أو Command Prompt</h4>
+                  <p>في Windows: اضغط Win+R ثم اكتب <code>cmd</code><br>
+                     في Mac/Linux: اضغط Ctrl+Alt+T</p>
+                  <button class="btn btn-outline" onclick="markStepComplete(8)">تم ✓</button>
+                </div>
+              </div>
+
+              <div class="interactive-step">
+                <div class="step-number">2</div>
+                <div class="step-content">
+                  <h4>انتقل إلى مجلد العمل</h4>
+                  <div class="command-box">
+                    <code>cd [اسم-المجلد]</code>
+                  </div>
+                  <small>أو أي مجلد تريد حفظ المشروع فيه</small>
+                  <button class="btn btn-outline" onclick="markStepComplete(9)">تم ✓</button>
+                </div>
+              </div>
+
+              <div class="interactive-step">
+                <div class="step-number">3</div>
+                <div class="step-content">
+                  <h4>تنفيذ أمر الاستنساخ</h4>
+                  <p>الصق الأمر المُولد أعلاه في Terminal واضغط Enter</p>
+                  <div class="info-box">
+                    <strong>ملاحظة:</strong> سيطلب منك إدخال كلمة المرور - الصق Token بدلاً من كلمة المرور الفعلية
+                  </div>
+                  <button class="btn btn-outline" onclick="markStepComplete(10)">تم الاستنساخ ✓</button>
+                </div>
+              </div>
+
+              <div class="interactive-step">
+                <div class="step-number">4</div>
+                <div class="step-content">
+                  <h4>التحقق من نجاح العملية</h4>
+                  <div class="command-box">
+                    <code>cd <span id="repo-name-in-cd">اسم-المستودع</span></code><br>
+                    <code>ls</code> أو <code>dir</code> (في Windows)
+                  </div>
+                  <p>يجب أن ترى ملفات المستودع مثل README.md</p>
+                  <button class="btn btn-outline" onclick="markStepComplete(11)">تم التحقق ✓</button>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Troubleshooting Section -->
+          <section class="step-section">
+            <h2>🔧 حل المشاكل الشائعة</h2>
+            
+            <div class="troubleshoot-grid">
+              <div class="trouble-item">
+                <h4>❌ خطأ: Authentication failed</h4>
+                <p><strong>السبب:</strong> Token خاطئ أو منتهي الصلاحية</p>
+                <p><strong>الحل:</strong> تأكد من نسخ Token كاملاً وأنه لم تنته صلاحيته</p>
+              </div>
+              
+              <div class="trouble-item">
+                <h4>❌ خطأ: Repository not found</h4>
+                <p><strong>السبب:</strong> اسم المستودع أو المستخدم خاطئ</p>
+                <p><strong>الحل:</strong> تحقق من الأسماء في رابط المستودع على GitHub</p>
+              </div>
+              
+              <div class="trouble-item">
+                <h4>❌ خطأ: Permission denied</h4>
+                <p><strong>السبب:</strong> Token لا يملك صلاحية "repo"</p>
+                <p><strong>الحل:</strong> أنشئ Token جديد مع تفعيل صلاحية "repo"</p>
+              </div>
+              
+              <div class="trouble-item">
+                <h4>❌ المجلد موجود بالفعل</h4>
+                <p><strong>السبب:</strong> تم استنساخ المستودع من قبل</p>
+                <p><strong>الحل:</strong> احذف المجلد أو استخدم اسم مجلد مختلف</p>
+              </div>
+            </div>
+          </section>
+
+          <!-- Success Verification -->
+          <div class="success-check" id="success-section" style="display:none;">
+            <h2>🎉 تهانينا! تم إعداد GitHub بنجاح</h2>
+            <div class="success-content">
+              <p>✅ تم إنشاء Personal Access Token</p>
+              <p>✅ تم إنشاء مستودع GitHub</p>
+              <p>✅ تم استنساخ المستودع محلياً</p>
+              <div class="next-steps">
+                <h3>الخطوات التالية:</h3>
+                <ul>
+                  <li>ابدأ في إضافة ملفات لمشروعك</li>
+                  <li>استخدم <code>git add</code> و <code>git commit</code> و <code>git push</code></li>
+                  <li>انتقل إلى التحديات لتطبيق ما تعلمته</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Navigation Buttons -->
+        <div class="navigation-buttons">
+          <a href="index.html" class="btn btn-outline">العودة للرئيسية</a>
+          <a href="challenges/" class="btn btn-primary">التحديات العملية</a>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script src="assets/app.js"></script>
+  <script>
+    // Interactive functionality
+    let completedSteps = new Set();
+
+    function markStepComplete(stepNumber) {
+      completedSteps.add(stepNumber);
+      const button = event.target;
+      button.classList.add('completed');
+      button.disabled = true;
+      
+      // Check if all steps completed
+      if (completedSteps.size >= 11) {
+        document.getElementById('success-section').style.display = 'block';
+        document.getElementById('success-section').scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+
+    function generateCloneCommand() {
+      const username = document.getElementById('github-username').value;
+      const repoName = document.getElementById('clone-repo-name').value;
+      const token = document.getElementById('clone-token').value;
+      
+      if (username && repoName && token) {
+        const command = `git clone https://${username}:${token}@github.com/${username}/${repoName}.git`;
+        document.getElementById('clone-command').innerHTML = `<code>${command}</code>`;
+        document.getElementById('repo-name-in-cd').textContent = repoName;
+      } else {
+        document.getElementById('clone-command').innerHTML = '<code>أدخل البيانات أعلاه لتوليد الأمر</code>';
+      }
+    }
+
+    function copyCloneCommand() {
+      const commandText = document.getElementById('clone-command').textContent;
+      if (commandText && !commandText.includes('أدخل البيانات')) {
+        navigator.clipboard.writeText(commandText).then(() => {
+          alert('تم نسخ الأمر!');
+        });
+      } else {
+        alert('يرجى إدخال البيانات أولاً');
+      }
+    }
+
+    function toggleTokenVisibility() {
+      const tokenInput = document.getElementById('saved-token');
+      tokenInput.type = tokenInput.type === 'password' ? 'text' : 'password';
+    }
+
+    // Auto-fill from saved token
+    function syncTokenInputs() {
+      const savedToken = document.getElementById('saved-token').value;
+      const cloneToken = document.getElementById('clone-token');
+      if (savedToken && !cloneToken.value) {
+        cloneToken.value = savedToken;
+        generateCloneCommand();
+      }
+    }
+
+    // Auto-fill repo name
+    function syncRepoName() {
+      const repoName = document.getElementById('repo-name').value;
+      const cloneRepoName = document.getElementById('clone-repo-name');
+      if (repoName && !cloneRepoName.value) {
+        cloneRepoName.value = repoName;
+        generateCloneCommand();
+      }
+    }
+
+    // Event listeners
+    document.getElementById('github-username').addEventListener('input', generateCloneCommand);
+    document.getElementById('clone-repo-name').addEventListener('input', generateCloneCommand);
+    document.getElementById('clone-token').addEventListener('input', generateCloneCommand);
+    document.getElementById('saved-token').addEventListener('input', syncTokenInputs);
+    document.getElementById('repo-name').addEventListener('input', syncRepoName);
+  </script>
+
+  <style>
+    .step-section {
+      margin-bottom: 3rem;
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 2rem;
+    }
+
+    .info-box {
+      background: #f0f9ff;
+      border: 1px solid #0ea5e9;
+      border-radius: var(--radius);
+      padding: 1rem;
+      margin: 1rem 0;
+    }
+
+    .warning-box {
+      background: #fef3c7;
+      border: 1px solid #f59e0b;
+      border-radius: var(--radius);
+      padding: 1rem;
+      margin: 1rem 0;
+      color: #92400e;
+    }
+
+    .steps-container {
+      margin: 1.5rem 0;
+    }
+
+    .interactive-step {
+      display: flex;
+      margin: 1.5rem 0;
+      padding: 1rem;
+      background: var(--bg-secondary);
+      border-radius: var(--radius);
+      border: 1px solid var(--border-color);
+    }
+
+    .step-number {
+      background: var(--primary-color);
+      color: white;
+      width: 2.5rem;
+      height: 2.5rem;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      margin-left: 1rem;
+      flex-shrink: 0;
+    }
+
+    .step-content {
+      flex: 1;
+    }
+
+    .form-input {
+      width: 100%;
+      padding: 0.5rem;
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius);
+      margin: 0.5rem 0;
+      font-size: 0.9rem;
+    }
+
+    .config-item, .input-group {
+      margin: 1rem 0;
+    }
+
+    .scopes-list {
+      background: var(--bg-primary);
+      padding: 1rem;
+      border-radius: var(--radius);
+      border: 1px solid var(--border-color);
+    }
+
+    .scope-item {
+      margin: 0.5rem 0;
+    }
+
+    .scope-desc {
+      display: block;
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+      margin-right: 1.5rem;
+    }
+
+    .token-storage {
+      background: var(--bg-primary);
+      padding: 1rem;
+      border-radius: var(--radius);
+      border: 1px solid var(--border-color);
+      margin: 1rem 0;
+    }
+
+    .clone-generator {
+      background: #f8fafc;
+      padding: 1.5rem;
+      border-radius: var(--radius);
+      border: 1px solid var(--border-color);
+      margin: 1.5rem 0;
+    }
+
+    .generator-inputs {
+      display: grid;
+      gap: 1rem;
+      margin: 1rem 0;
+    }
+
+    .command-box {
+      background: #1e293b;
+      color: #e2e8f0;
+      padding: 1rem;
+      border-radius: var(--radius);
+      font-family: 'Courier New', monospace;
+      margin: 0.5rem 0;
+      direction: ltr;
+      text-align: left;
+    }
+
+    .command-box code {
+      color: #e2e8f0;
+      background: none;
+    }
+
+    .radio-group, .checkbox-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .radio-group label, .checkbox-group label {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .troubleshoot-grid {
+      display: grid;
+      gap: 1rem;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    }
+
+    .trouble-item {
+      background: var(--bg-primary);
+      padding: 1rem;
+      border-radius: var(--radius);
+      border: 1px solid var(--border-color);
+    }
+
+    .success-check {
+      background: linear-gradient(135deg, #dcfce7, #f0fdf4);
+      border: 2px solid #10b981;
+      border-radius: var(--radius);
+      padding: 2rem;
+      margin: 2rem 0;
+      text-align: center;
+    }
+
+    .success-content {
+      margin: 1rem 0;
+    }
+
+    .btn.completed {
+      background: #10b981;
+      color: white;
+      border-color: #10b981;
+    }
+
+    .external-link {
+      color: var(--primary-color);
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .external-link:hover {
+      text-decoration: underline;
+    }
+
+    @media (max-width: 768px) {
+      .interactive-step {
+        flex-direction: column;
+        text-align: center;
+      }
+      
+      .step-number {
+        margin: 0 auto 1rem;
+      }
+      
+      .troubleshoot-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</body>
+</html>

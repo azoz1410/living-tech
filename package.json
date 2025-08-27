@@ -1,0 +1,12 @@
+{
+  "name": "majlis-tech",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build:toc": "node scripts/generate-toc.mjs",
+    "build:index": "node scripts/build-index.mjs",
+    "build": "npm run build:toc && npm run build:index"
+  },
+  "devDependencies": {}
+}

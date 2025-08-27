@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="Content-Language" content="ar" />
+  <title>التحديات - المجلس التقني</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <link rel="stylesheet" href="../assets/styles.css">
+</head>
+<body>
+  <div class="app-container">
+    <!-- Sidebar Navigation -->
+    <nav class="sidebar">
+      <div class="sidebar-header">
+        <h2>المجلس التقني</h2>
+        <p class="tagline">مسار Git/GitHub للطلاب</p>
+      </div>
+      <ul class="nav-list" id="nav-list">
+        <li><a href="../index.html" class="nav-link">الرئيسية</a></li>
+        <li><a href="../github-setup.html" class="nav-link">إعداد GitHub</a></li>
+        <!-- Units will be loaded here -->
+      </ul>
+      <div class="sidebar-footer">
+        <a href="index.html" class="btn-secondary">التحديات</a>
+        <a href="../README.md" class="btn-secondary">README</a>
+      </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <div class="hero-section">
+        <h1>التحديات العملية</h1>
+        <p class="hero-subtitle">اختبر مهاراتك في Git وGitHub من خلال تحديات متدرجة</p>
+        <div class="creator-note">
+          <p>💡 <strong>من عبدالعزيز:</strong> "هذه التحديات مصممة خصيصاً لزملائي في مدرسة هولبيرتون - كل تحدي يحاكي سيناريوهات حقيقية ستواجهونها في مشاريعكم"</p>
+        </div>
+      </div>
+
+      <div class="content-grid">
+        <section class="challenges-list">
+          <h2>قائمة التحديات</h2>
+          <div class="challenge-cards" id="challenges-list">
+            <div class="challenge-card">
+              <h3>التحدي 01: أساسيات Commit</h3>
+              <p>تطبيق عملي على دورة حياة الملف وكتابة رسائل التزام جيدة</p>
+              <div class="challenge-meta">
+                <span class="difficulty beginner">مبتدئ</span>
+                <span class="time">⏱️ 20 دقيقة</span>
+              </div>
+              <a href="challenge-01-commit-basics.md" class="btn btn-primary">ابدأ التحدي</a>
+            </div>
+
+            <div class="challenge-card coming-soon">
+              <h3>التحدي 02: إدارة الفروع</h3>
+              <p>إنشاء فروع متعددة وحل تعارضات الدمج</p>
+              <div class="challenge-meta">
+                <span class="difficulty intermediate">متوسط</span>
+                <span class="time">⏱️ 30 دقيقة</span>
+              </div>
+              <span class="btn btn-outline disabled">قريباً</span>
+            </div>
+
+            <div class="challenge-card coming-soon">
+              <h3>التحدي 03: سير العمل المتقدم</h3>
+              <p>إعداد GitHub Actions وحماية الفروع</p>
+              <div class="challenge-meta">
+                <span class="difficulty advanced">متقدم</span>
+                <span class="time">⏱️ 45 دقيقة</span>
+              </div>
+              <span class="btn btn-outline disabled">قريباً</span>
+            </div>
+          </div>
+        </section>
+
+        <section class="challenge-tips">
+          <h2>نصائح للتحديات</h2>
+          <ul class="feature-list">
+            <li>تأكد من إكمال الوحدات المطلوبة قبل البدء</li>
+            <li>استخدم مستودع تجريبي منفصل</li>
+            <li>اقرأ معايير القبول بعناية</li>
+            <li>لا تتردد في طلب المساعدة عبر Issues</li>
+          </ul>
+        </section>
+      </div>
+
+      <footer class="main-footer">
+        <p>
+          <a href="../index.html">العودة للرئيسية</a> • 
+          <a href="../README.md">التوثيق</a> • 
+          مع تحيات <strong>عبدالعزيز</strong> 💙
+        </p>
+      </footer>
+    </main>
+  </div>
+
+  <script src="../assets/app.js"></script>
+  <style>
+    .challenges-list {
+      grid-column: 1 / -1;
+    }
+    
+    .challenge-cards {
+      display: grid;
+      gap: 1.5rem;
+      margin-top: 1rem;
+    }
+    
+    .challenge-card {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      transition: all 0.2s ease;
+    }
+    
+    .challenge-card:hover {
+      box-shadow: var(--shadow);
+      transform: translateY(-2px);
+    }
+    
+    .challenge-card.coming-soon {
+      opacity: 0.6;
+    }
+    
+    .challenge-card h3 {
+      color: var(--primary-color);
+      margin-bottom: 0.5rem;
+    }
+    
+    .challenge-meta {
+      display: flex;
+      gap: 1rem;
+      margin: 1rem 0;
+      font-size: 0.875rem;
+    }
+    
+    .difficulty {
+      padding: 0.25rem 0.5rem;
+      border-radius: 4px;
+      font-weight: 500;
+    }
+    
+    .difficulty.beginner {
+      background: #dcfce7;
+      color: #166534;
+    }
+    
+    .difficulty.intermediate {
+      background: #fef3c7;
+      color: #92400e;
+    }
+    
+    .difficulty.advanced {
+      background: #fee2e2;
+      color: #991b1b;
+    }
+    
+    .btn.disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+    
+    .creator-note {
+      background: linear-gradient(135deg, #e0f2fe, #f0f9ff);
+      padding: 1rem;
+      border-radius: 8px;
+      margin-top: 1rem;
+      border-right: 3px solid var(--primary-color);
+      font-style: italic;
+    }
+    
+    .creator-note p {
+      margin: 0;
+      color: var(--text-primary);
+    }
+  </style>
+</body>
+</html>

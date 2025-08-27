@@ -1,0 +1,52 @@
+[
+  {
+    "file": "00-setup-environment.md",
+    "title": "00 - إعداد البيئة",
+    "num": "00"
+  },
+  {
+    "file": "01-file-lifecycle.md",
+    "title": "01 - دورة حياة الملف في Git",
+    "num": "01"
+  },
+  {
+    "file": "02-good-commit-messages.md",
+    "title": "02 - رسائل Commit جيدة",
+    "num": "02"
+  },
+  {
+    "file": "03-branches.md",
+    "title": "03 - الفروع (Branches)",
+    "num": "03"
+  },
+  {
+    "file": "04-github-basics.md",
+    "title": "04 - أساسيات GitHub",
+    "num": "04"
+  },
+  {
+    "file": "05-pull-requests.md",
+    "title": "05 - Pull Requests",
+    "num": "05"
+  },
+  {
+    "file": "06-conflicts.md",
+    "title": "06 - التعارضات (Merge Conflicts)",
+    "num": "06"
+  },
+  {
+    "file": "07-rebase-vs-merge.md",
+    "title": "07 - Rebase vs Merge",
+    "num": "07"
+  },
+  {
+    "file": "08-branch-protection.md",
+    "title": "08 - حماية الفروع (Branch Protection)",
+    "num": "08"
+  },
+  {
+    "file": "09-intro-ci.md",
+    "title": "09 - مقدمة التكامل المستمر (CI)",
+    "num": "09"
+  }
+]
