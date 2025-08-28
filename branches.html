@@ -648,6 +648,51 @@
                 font-size: 0.8rem;
                 padding: 0.4rem 0.8rem;
             }
+            
+            /* تحسين النموذج التفاعلي للهواتف */
+            .git-commands-interactive {
+                padding: 1.5rem 1rem;
+                margin: 1.5rem 0;
+            }
+            
+            .main-command {
+                padding: 1.25rem 1.5rem;
+                font-size: 1.3rem;
+            }
+            
+            .command-item {
+                padding: 1rem;
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.5rem;
+            }
+            
+            .command-desc {
+                margin-right: 0;
+                text-align: right;
+                font-size: 0.85rem;
+            }
+            
+            .detail-content {
+                padding: 1.5rem 1rem;
+            }
+            
+            .example-item {
+                padding: 0.75rem;
+            }
+            
+            .example-command {
+                font-size: 0.9rem;
+            }
+            
+            .example-description {
+                font-size: 0.8rem;
+            }
+            
+            .related-item {
+                font-size: 0.8rem;
+                padding: 0.4rem 0.8rem;
+            }
         }
         
         /* هواتف محمولة صغيرة */
@@ -713,6 +758,65 @@
             .back-to-home-btn {
                 padding: 0.75rem 1.5rem;
                 font-size: 0.9rem;
+            }
+            
+            /* تحسين النموذج التفاعلي للهواتف الصغيرة */
+            .git-commands-interactive {
+                padding: 1rem 0.75rem;
+            }
+            
+            .git-commands-interactive h3 {
+                font-size: 1.1rem;
+            }
+            
+            .main-command {
+                padding: 1rem 1.25rem;
+                font-size: 1.1rem;
+            }
+            
+            .command-item {
+                padding: 0.75rem;
+            }
+            
+            .command-name {
+                font-size: 1rem;
+            }
+            
+            .command-desc {
+                font-size: 0.8rem;
+            }
+            
+            .detail-header {
+                padding: 1rem 1.25rem;
+            }
+            
+            .detail-header h4 {
+                font-size: 1.1rem;
+            }
+            
+            .detail-content {
+                padding: 1rem 0.75rem;
+            }
+            
+            .detail-content p {
+                font-size: 1rem;
+            }
+            
+            .example-item {
+                padding: 0.6rem;
+            }
+            
+            .example-command {
+                font-size: 0.8rem;
+            }
+            
+            .example-description {
+                font-size: 0.75rem;
+            }
+            
+            .related-item {
+                font-size: 0.75rem;
+                padding: 0.3rem 0.6rem;
             }
         }
 
@@ -798,6 +902,224 @@
             border-radius: 0 6px 6px 0;
         }
 
+        /* تنسيق مستكشف أوامر Git التفاعلي */
+        .git-commands-interactive {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 2rem 0;
+            border: 2px solid var(--border-color);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .git-commands-interactive h3 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .command-explorer {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .main-command {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+            padding: 1.5rem 2rem;
+            border-radius: 12px;
+            cursor: pointer;
+            text-align: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            font-family: 'Courier New', monospace;
+            transition: all 0.3s ease;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+
+        .main-command:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+            background: linear-gradient(135deg, #34495e 0%, #2c3e50 100%);
+        }
+
+        .expand-icon {
+            font-size: 1.2rem;
+            transition: transform 0.3s ease;
+        }
+
+        .expand-icon.rotated {
+            transform: rotate(180deg);
+        }
+
+        .commands-list {
+            background: white;
+            border-radius: 8px;
+            margin-top: 1rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            border: 1px solid var(--border-color);
+            overflow: hidden;
+        }
+
+        .command-item {
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .command-item:last-child {
+            border-bottom: none;
+        }
+
+        .command-item:hover {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            transform: translateX(5px);
+        }
+
+        .command-name {
+            font-family: 'Courier New', monospace;
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+
+        .command-desc {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            flex: 1;
+            text-align: left;
+            margin-right: 1rem;
+        }
+
+        .command-item:hover .command-desc {
+            opacity: 1;
+        }
+
+        .command-details {
+            background: white;
+            border-radius: 12px;
+            margin-top: 2rem;
+            padding: 0;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+            border: 2px solid var(--primary-color);
+            overflow: hidden;
+            animation: slideDown 0.3s ease;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .detail-header {
+            background: linear-gradient(135deg, var(--primary-color) 0%, #667eea 100%);
+            color: white;
+            padding: 1.5rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .detail-header h4 {
+            margin: 0;
+            font-family: 'Courier New', monospace;
+            font-size: 1.3rem;
+        }
+
+        .close-btn {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            padding: 0.5rem;
+            border-radius: 50%;
+            cursor: pointer;
+            width: 35px;
+            height: 35px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
+
+        .close-btn:hover {
+            background: rgba(255,255,255,0.3);
+            transform: scale(1.1);
+        }
+
+        .detail-content {
+            padding: 2rem;
+        }
+
+        .detail-content p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 2rem;
+            color: #2c3e50;
+        }
+
+        .usage-examples,
+        .related-commands {
+            margin-bottom: 1.5rem;
+        }
+
+        .usage-examples h5,
+        .related-commands h5 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .example-item {
+            background: #f8f9fa;
+            padding: 1rem;
+            margin: 0.5rem 0;
+            border-radius: 6px;
+            border-right: 3px solid var(--accent-color);
+            font-family: 'Courier New', monospace;
+        }
+
+        .example-command {
+            color: #2c3e50;
+            font-weight: bold;
+        }
+
+        .example-description {
+            color: #6c757d;
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+        }
+
+        .related-item {
+            display: inline-block;
+            background: var(--primary-color);
+            color: white;
+            padding: 0.5rem 1rem;
+            margin: 0.25rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .related-item:hover {
+            background: var(--accent-color);
+            transform: scale(1.05);
+        }
+
         .branch-status.ahead {
             background: #fff3cd;
             border-right-color: #ffc107;
@@ -873,6 +1195,89 @@
         <div class="content-section">
             <h2>📋 ما هو الـ Branch؟</h2>
             <p>الـ Branch (الفرع) هو خط تطوير منفصل يسمح لك بالعمل على ميزات مختلفة دون التأثير على الكود الرئيسي. تخيل الفرع كطريق جانبي يسمح لك بالتجريب والتطوير بحرية.</p>
+
+            <!-- نموذج أوامر Git التفاعلي -->
+            <div class="git-commands-interactive">
+                <h3>🔧 مستكشف أوامر Git التفاعلي</h3>
+                <p>اكتشف أوامر Git وتعلم وظائفها:</p>
+                
+                <div class="command-explorer">
+                    <div class="main-command" onclick="toggleCommands()">
+                        <span class="command-text">git</span>
+                        <span class="expand-icon" id="expand-icon">▼</span>
+                    </div>
+                    
+                    <div class="commands-list" id="commands-list" style="display: none;">
+                        <div class="command-item" onclick="showCommandInfo('branch')">
+                            <span class="command-name">branch</span>
+                            <span class="command-desc">إنشاء، عرض، أو حذف الفروع</span>
+                        </div>
+                        <div class="command-item" onclick="showCommandInfo('checkout')">
+                            <span class="command-name">checkout</span>
+                            <span class="command-desc">التبديل بين الفروع أو استعادة الملفات</span>
+                        </div>
+                        <div class="command-item" onclick="showCommandInfo('switch')">
+                            <span class="command-name">switch</span>
+                            <span class="command-desc">التبديل بين الفروع (أمر حديث)</span>
+                        </div>
+                        <div class="command-item" onclick="showCommandInfo('merge')">
+                            <span class="command-name">merge</span>
+                            <span class="command-desc">دمج فرع في الفرع الحالي</span>
+                        </div>
+                        <div class="command-item" onclick="showCommandInfo('push')">
+                            <span class="command-name">push</span>
+                            <span class="command-desc">رفع التغييرات إلى المستودع البعيد</span>
+                        </div>
+                        <div class="command-item" onclick="showCommandInfo('pull')">
+                            <span class="command-name">pull</span>
+                            <span class="command-desc">جلب ودمج التغييرات من المستودع البعيد</span>
+                        </div>
+                        <div class="command-item" onclick="showCommandInfo('add')">
+                            <span class="command-name">add</span>
+                            <span class="command-desc">إضافة الملفات إلى منطقة التحضير</span>
+                        </div>
+                        <div class="command-item" onclick="showCommandInfo('commit')">
+                            <span class="command-name">commit</span>
+                            <span class="command-desc">حفظ التغييرات مع رسالة وصفية</span>
+                        </div>
+                        <div class="command-item" onclick="showCommandInfo('status')">
+                            <span class="command-name">status</span>
+                            <span class="command-desc">عرض حالة الملفات في المستودع</span>
+                        </div>
+                        <div class="command-item" onclick="showCommandInfo('log')">
+                            <span class="command-name">log</span>
+                            <span class="command-desc">عرض تاريخ الالتزامات</span>
+                        </div>
+                        <div class="command-item" onclick="showCommandInfo('clone')">
+                            <span class="command-name">clone</span>
+                            <span class="command-desc">نسخ مستودع من مكان بعيد</span>
+                        </div>
+                        <div class="command-item" onclick="showCommandInfo('remote')">
+                            <span class="command-name">remote</span>
+                            <span class="command-desc">إدارة المستودعات البعيدة</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- عرض تفاصيل الأمر -->
+                <div class="command-details" id="command-details" style="display: none;">
+                    <div class="detail-header">
+                        <h4 id="detail-command-name">git branch</h4>
+                        <button onclick="closeCommandDetails()" class="close-btn">✖</button>
+                    </div>
+                    <div class="detail-content">
+                        <p id="detail-description">وصف الأمر سيظهر هنا</p>
+                        <div class="usage-examples">
+                            <h5>أمثلة الاستخدام:</h5>
+                            <div id="detail-examples"></div>
+                        </div>
+                        <div class="related-commands">
+                            <h5>أوامر ذات صلة:</h5>
+                            <div id="detail-related"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
             <div class="company-example">
                 <h3 style="text-align: center; margin-bottom: 2rem;">🏢 مثال عملي: شركة تطوير التطبيقات</h3>
@@ -1435,6 +1840,190 @@ $ git branch -D experiment-ui
         // رسالة ترحيب
         console.log('🌿 مرحباً بك في صفحة الفروع التفاعلية!');
         console.log('💡 جرب الأوامر في المحاكي لفهم كيفية عمل Git branches');
+
+        // وظائف مستكشف أوامر Git التفاعلي
+        function toggleCommands() {
+            const commandsList = document.getElementById('commands-list');
+            const expandIcon = document.getElementById('expand-icon');
+            
+            if (commandsList.style.display === 'none') {
+                commandsList.style.display = 'block';
+                expandIcon.classList.add('rotated');
+            } else {
+                commandsList.style.display = 'none';
+                expandIcon.classList.remove('rotated');
+            }
+        }
+
+        function showCommandInfo(commandName) {
+            const detailsDiv = document.getElementById('command-details');
+            const commandNameEl = document.getElementById('detail-command-name');
+            const descriptionEl = document.getElementById('detail-description');
+            const examplesEl = document.getElementById('detail-examples');
+            const relatedEl = document.getElementById('detail-related');
+
+            const commandsData = {
+                'branch': {
+                    name: 'git branch',
+                    description: 'يستخدم لإنشاء، عرض، أو حذف الفروع في Git. هذا الأمر أساسي في إدارة خطوط التطوير المختلفة.',
+                    examples: [
+                        { command: 'git branch', desc: 'عرض جميع الفروع المحلية' },
+                        { command: 'git branch feature-login', desc: 'إنشاء فرع جديد باسم feature-login' },
+                        { command: 'git branch -d feature-login', desc: 'حذف فرع محلي' },
+                        { command: 'git branch -r', desc: 'عرض الفروع البعيدة' }
+                    ],
+                    related: ['checkout', 'switch', 'merge', 'push']
+                },
+                'checkout': {
+                    name: 'git checkout',
+                    description: 'يستخدم للتبديل بين الفروع أو استعادة ملفات من commits سابقة. هذا أمر متعدد الاستخدامات.',
+                    examples: [
+                        { command: 'git checkout main', desc: 'التبديل إلى فرع main' },
+                        { command: 'git checkout -b new-feature', desc: 'إنشاء فرع جديد والتبديل إليه' },
+                        { command: 'git checkout HEAD~1', desc: 'العودة إلى الـ commit السابق' },
+                        { command: 'git checkout -- file.txt', desc: 'استعادة ملف من آخر commit' }
+                    ],
+                    related: ['branch', 'switch', 'reset', 'restore']
+                },
+                'switch': {
+                    name: 'git switch',
+                    description: 'أمر حديث مخصص فقط للتبديل بين الفروع. أبسط وأوضح من checkout للتبديل.',
+                    examples: [
+                        { command: 'git switch main', desc: 'التبديل إلى فرع main' },
+                        { command: 'git switch -c new-feature', desc: 'إنشاء فرع جديد والتبديل إليه' },
+                        { command: 'git switch -', desc: 'العودة إلى الفرع السابق' }
+                    ],
+                    related: ['checkout', 'branch', 'restore']
+                },
+                'merge': {
+                    name: 'git merge',
+                    description: 'يدمج تغييرات من فرع آخر إلى الفرع الحالي. طريقة آمنة لدمج العمل المكتمل.',
+                    examples: [
+                        { command: 'git merge feature-branch', desc: 'دمج فرع feature-branch في الفرع الحالي' },
+                        { command: 'git merge --no-ff feature', desc: 'دمج مع إنشاء merge commit' },
+                        { command: 'git merge --squash feature', desc: 'دمج جميع commits كـ commit واحد' }
+                    ],
+                    related: ['branch', 'rebase', 'pull', 'push']
+                },
+                'push': {
+                    name: 'git push',
+                    description: 'يرفع التغييرات المحلية إلى المستودع البعيد (مثل GitHub). يشارك عملك مع الآخرين.',
+                    examples: [
+                        { command: 'git push origin main', desc: 'رفع فرع main إلى المستودع البعيد' },
+                        { command: 'git push -u origin feature', desc: 'رفع فرع جديد وربطه بالمستودع البعيد' },
+                        { command: 'git push --force', desc: 'فرض الرفع (خطير!)' }
+                    ],
+                    related: ['pull', 'fetch', 'remote', 'branch']
+                },
+                'pull': {
+                    name: 'git pull',
+                    description: 'يجلب ويدمج التغييرات من المستودع البعيد. مزيج من fetch و merge.',
+                    examples: [
+                        { command: 'git pull', desc: 'جلب ودمج تحديثات الفرع الحالي' },
+                        { command: 'git pull origin main', desc: 'جلب ودمج من فرع main البعيد' },
+                        { command: 'git pull --rebase', desc: 'جلب ودمج باستخدام rebase' }
+                    ],
+                    related: ['push', 'fetch', 'merge', 'rebase']
+                },
+                'add': {
+                    name: 'git add',
+                    description: 'يضيف الملفات إلى منطقة التحضير (staging area) قبل إنشاء commit.',
+                    examples: [
+                        { command: 'git add file.txt', desc: 'إضافة ملف محدد' },
+                        { command: 'git add .', desc: 'إضافة جميع الملفات المعدلة' },
+                        { command: 'git add -A', desc: 'إضافة جميع التغييرات (معدل، جديد، محذوف)' },
+                        { command: 'git add -p', desc: 'إضافة أجزاء من الملفات تفاعلياً' }
+                    ],
+                    related: ['commit', 'status', 'reset', 'restore']
+                },
+                'commit': {
+                    name: 'git commit',
+                    description: 'ينشئ نقطة حفظ (snapshot) للتغييرات مع رسالة وصفية. أساس نظام التحكم بالإصدارات.',
+                    examples: [
+                        { command: 'git commit -m "Add login feature"', desc: 'إنشاء commit برسالة' },
+                        { command: 'git commit -am "Quick fix"', desc: 'إضافة وcommit للملفات المعدلة' },
+                        { command: 'git commit --amend', desc: 'تعديل آخر commit' }
+                    ],
+                    related: ['add', 'push', 'log', 'reset']
+                },
+                'status': {
+                    name: 'git status',
+                    description: 'يعرض حالة الملفات: معدلة، مضافة للتحضير، غير متتبعة. أول أمر يجب تشغيله.',
+                    examples: [
+                        { command: 'git status', desc: 'عرض حالة المستودع' },
+                        { command: 'git status -s', desc: 'عرض مختصر للحالة' },
+                        { command: 'git status --ignored', desc: 'عرض الملفات المتجاهلة أيضاً' }
+                    ],
+                    related: ['add', 'commit', 'diff', 'log']
+                },
+                'log': {
+                    name: 'git log',
+                    description: 'يعرض تاريخ الـ commits مع التفاصيل. يساعد في فهم تطور المشروع.',
+                    examples: [
+                        { command: 'git log', desc: 'عرض تاريخ الـ commits' },
+                        { command: 'git log --oneline', desc: 'عرض مختصر بسطر واحد لكل commit' },
+                        { command: 'git log --graph', desc: 'عرض بياني للفروع والدمج' },
+                        { command: 'git log -p', desc: 'عرض مع التغييرات في كل commit' }
+                    ],
+                    related: ['show', 'diff', 'branch', 'tag']
+                },
+                'clone': {
+                    name: 'git clone',
+                    description: 'ينسخ مستودع كامل من مكان بعيد إلى جهازك المحلي. أول خطوة للعمل على مشروع موجود.',
+                    examples: [
+                        { command: 'git clone https://github.com/user/repo.git', desc: 'نسخ مستودع من GitHub' },
+                        { command: 'git clone repo.git my-folder', desc: 'نسخ إلى مجلد محدد' },
+                        { command: 'git clone --depth 1 repo.git', desc: 'نسخ آخر commit فقط' }
+                    ],
+                    related: ['remote', 'fetch', 'pull', 'init']
+                },
+                'remote': {
+                    name: 'git remote',
+                    description: 'يدير الاتصالات مع المستودعات البعيدة. يربط مشروعك المحلي بالسحابة.',
+                    examples: [
+                        { command: 'git remote -v', desc: 'عرض المستودعات البعيدة' },
+                        { command: 'git remote add origin url', desc: 'إضافة مستودع بعيد' },
+                        { command: 'git remote remove origin', desc: 'حذف مستودع بعيد' }
+                    ],
+                    related: ['clone', 'push', 'pull', 'fetch']
+                }
+            };
+
+            const data = commandsData[commandName];
+            if (!data) return;
+
+            commandNameEl.textContent = data.name;
+            descriptionEl.textContent = data.description;
+
+            // أمثلة الاستخدام
+            examplesEl.innerHTML = '';
+            data.examples.forEach(example => {
+                const exampleDiv = document.createElement('div');
+                exampleDiv.className = 'example-item';
+                exampleDiv.innerHTML = `
+                    <div class="example-command">${example.command}</div>
+                    <div class="example-description">${example.desc}</div>
+                `;
+                examplesEl.appendChild(exampleDiv);
+            });
+
+            // الأوامر ذات الصلة
+            relatedEl.innerHTML = '';
+            data.related.forEach(related => {
+                const relatedSpan = document.createElement('span');
+                relatedSpan.className = 'related-item';
+                relatedSpan.textContent = related;
+                relatedSpan.onclick = () => showCommandInfo(related);
+                relatedEl.appendChild(relatedSpan);
+            });
+
+            detailsDiv.style.display = 'block';
+            detailsDiv.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function closeCommandDetails() {
+            document.getElementById('command-details').style.display = 'none';
+        }
     </script>
 </body>
 </html>
