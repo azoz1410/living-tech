@@ -1,0 +1,1307 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>فهم الـ Branches - المجلس التقني</title>
+    <link rel="stylesheet" href="assets/styles.css">
+    <style>
+        .branch-playground {
+            background: var(--bg-light);
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 2rem 0;
+            border: 2px solid var(--border-color);
+        }
+
+        .git-tree {
+            background: #1e1e1e;
+            border-radius: 8px;
+            padding: 2rem;
+            margin: 1rem 0;
+            color: #fff;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            line-height: 1.6;
+            direction: ltr;
+            text-align: left;
+            overflow-x: auto;
+        }
+
+        .commit {
+            display: inline-block;
+            background: var(--primary-color);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            margin: 0.25rem;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .commit:hover {
+            background: var(--accent-color);
+            transform: scale(1.05);
+        }
+
+        .commit.main-branch {
+            background: #28a745;
+        }
+
+        .commit.feature-branch {
+            background: #007bff;
+        }
+
+        .commit.hotfix-branch {
+            background: #dc3545;
+        }
+
+        .branch-line {
+            height: 2px;
+            background: var(--primary-color);
+            margin: 0.5rem 0;
+            border-radius: 1px;
+        }
+
+        .branch-line.main {
+            background: #28a745;
+        }
+
+        .branch-line.feature {
+            background: #007bff;
+        }
+
+        .branch-line.hotfix {
+            background: #dc3545;
+        }
+
+        .interactive-commands {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+        }
+
+        .command-input {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            align-items: center;
+        }
+
+        .command-input input {
+            flex: 1;
+            padding: 0.75rem;
+            border: 2px solid var(--border-color);
+            border-radius: 6px;
+            font-size: 1rem;
+        }
+
+        .execute-btn {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .execute-btn:hover {
+            background: var(--accent-color);
+        }
+
+        .output-terminal {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 1rem;
+            border-radius: 6px;
+            font-family: 'Courier New', monospace;
+            min-height: 100px;
+            white-space: pre-wrap;
+            direction: ltr;
+            text-align: left;
+        }
+
+        .branch-visual {
+            background: linear-gradient(135deg, #f8f9ff 0%, #e8f2ff 100%);
+            border-radius: 16px;
+            padding: 2rem;
+            margin: 2rem 0;
+            border: 2px solid #e1e8f0;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+        }
+
+        /* أنماط الأمثلة العملية */
+        .company-example {
+            background: linear-gradient(135deg, #f0f8ff 0%, #e6f3ff 100%);
+            border-radius: 16px;
+            padding: 2rem;
+            margin: 2rem 0;
+            border: 2px solid #d1e7f5;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+        }
+
+        .company-intro {
+            margin-bottom: 2rem;
+        }
+
+        .company-card {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            border: 1px solid #e2e8f0;
+        }
+
+        .company-card h4 {
+            color: #1e40af;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .team-members {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .member {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: #f8fafc;
+            padding: 0.75rem 1rem;
+            border-radius: 25px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .member-icon {
+            font-size: 1.2rem;
+        }
+
+        .scenario-timeline {
+            margin: 2rem 0;
+        }
+
+        .timeline-item {
+            display: flex;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+            align-items: flex-start;
+        }
+
+        .timeline-marker {
+            width: 80px;
+            height: 40px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 0.9rem;
+            flex-shrink: 0;
+        }
+
+        .timeline-marker.main {
+            background: linear-gradient(135deg, #22c55e, #16a34a);
+        }
+
+        .timeline-marker.feature {
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
+        }
+
+        .timeline-marker.hotfix {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+        }
+
+        .timeline-marker.merge {
+            background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+        }
+
+        .timeline-content {
+            flex: 1;
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            border: 1px solid #e2e8f0;
+        }
+
+        .timeline-content h5 {
+            color: #1e293b;
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .timeline-content p {
+            color: #64748b;
+            margin-bottom: 1rem;
+        }
+
+        .code-example {
+            background: #f1f5f9;
+            padding: 1rem;
+            border-radius: 8px;
+            border-left: 4px solid #3b82f6;
+            margin: 1rem 0;
+        }
+
+        .code-example code {
+            color: #1e40af;
+            font-weight: 500;
+        }
+
+        .developer-work {
+            margin: 1rem 0;
+        }
+
+        .work-step {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .step-num {
+            background: #3b82f6;
+            color: white;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .git-commands {
+            background: #1e293b;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-top: 1rem;
+            font-family: 'Courier New', monospace;
+        }
+
+        .git-commands.urgent {
+            border: 2px solid #ef4444;
+            animation: pulse-border 2s infinite;
+        }
+
+        @keyframes pulse-border {
+            0%, 100% { border-color: #ef4444; }
+            50% { border-color: #fca5a5; }
+        }
+
+        .command-line {
+            color: #22d3ee;
+            margin-bottom: 0.25rem;
+            font-size: 0.9rem;
+        }
+
+        .parallel-work {
+            margin: 1rem 0;
+        }
+
+        .work-benefit {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 0.5rem;
+            color: #059669;
+        }
+
+        .benefit-icon {
+            font-size: 1.1rem;
+        }
+
+        .urgent-scenario {
+            margin: 1rem 0;
+        }
+
+        .problem, .solution, .result {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 0.75rem;
+            padding: 0.75rem;
+            border-radius: 8px;
+        }
+
+        .problem {
+            background: #fef2f2;
+            color: #dc2626;
+            border-left: 4px solid #ef4444;
+        }
+
+        .solution {
+            background: #fefce8;
+            color: #ca8a04;
+            border-left: 4px solid #eab308;
+        }
+
+        .result {
+            background: #f0fdf4;
+            color: #16a34a;
+            border-left: 4px solid #22c55e;
+        }
+
+        .merge-process {
+            margin: 1rem 0;
+        }
+
+        .merge-step {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 0.75rem;
+            padding: 0.75rem;
+            background: #f8fafc;
+            border-radius: 8px;
+            border-left: 4px solid #8b5cf6;
+        }
+
+        .merge-icon {
+            font-size: 1.2rem;
+        }
+
+        .benefits-section {
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 2px solid #e2e8f0;
+        }
+
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .benefit-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            border: 1px solid #e2e8f0;
+            transition: transform 0.3s ease;
+        }
+
+        .benefit-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+        .benefit-card .benefit-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .benefit-card h5 {
+            color: #1e293b;
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .benefit-card p {
+            color: #64748b;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeOutDown {
+            from {
+                opacity: 1;
+                transform: translateY(0);
+            }
+            to {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+        }
+
+        .commit-info-panel {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 12px;
+            color: white;
+            margin: 2rem 0;
+            box-shadow: 0 8px 32px rgba(102, 126, 234, 0.3);
+            overflow: hidden;
+        }
+
+        /* أنماط الصفحة بدون قائمة جانبية */
+        .fullscreen-page {
+            margin: 0;
+            padding: 0;
+            background: #f8fafc;
+        }
+
+        .page-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1.5rem 0;
+            box-shadow: 0 4px 20px rgba(102, 126, 234, 0.3);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 2rem;
+        }
+
+        .back-button {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: white;
+            text-decoration: none;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 0.75rem 1.5rem;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .back-button:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .back-icon {
+            font-size: 1.2rem;
+        }
+
+        .page-title {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            flex: 1;
+            justify-content: center;
+        }
+
+        .page-icon {
+            font-size: 2rem;
+        }
+
+        .page-title h1 {
+            margin: 0;
+            font-size: 1.8rem;
+            font-weight: 600;
+        }
+
+        .header-brand {
+            font-weight: 600;
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .fullscreen-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            min-height: calc(100vh - 120px);
+        }
+
+        .content-section {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            border: 1px solid #e2e8f0;
+        }
+
+        .content-section h2 {
+            color: #1e293b;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .content-section p {
+            color: #64748b;
+            line-height: 1.7;
+            margin-bottom: 1.5rem;
+        }
+
+        /* تخصيص للأجهزة الصغيرة */
+        @media (max-width: 768px) {
+            .header-content {
+                padding: 0 1rem;
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .page-title {
+                order: -1;
+            }
+
+            .page-title h1 {
+                font-size: 1.5rem;
+            }
+
+            .back-button, .header-brand {
+                font-size: 0.9rem;
+            }
+
+            .fullscreen-content {
+                padding: 1rem;
+            }
+
+            .content-section {
+                padding: 1.5rem;
+            }
+        }
+
+        .navigation-section {
+            margin-top: 3rem;
+            text-align: center;
+        }
+
+        .back-to-home-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-decoration: none;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .back-to-home-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+            background: linear-gradient(135deg, #5a67d8 0%, #6b46c1 100%);
+        }
+
+        .back-to-home-btn .back-icon {
+            font-size: 1.3rem;
+        }
+
+        .scenario-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .scenario-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            border: 1px solid var(--border-color);
+            transition: transform 0.3s ease;
+        }
+
+        .scenario-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+        .scenario-title {
+            color: var(--primary-color);
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .try-button {
+            background: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            width: 100%;
+            margin-top: 1rem;
+        }
+
+        .try-button:hover {
+            background: #e67e22;
+        }
+
+        .branch-status {
+            background: #e8f5e8;
+            border-right: 4px solid #28a745;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 0 6px 6px 0;
+        }
+
+        .branch-status.ahead {
+            background: #fff3cd;
+            border-right-color: #ffc107;
+        }
+
+        .branch-status.behind {
+            background: #f8d7da;
+            border-right-color: #dc3545;
+        }
+
+        .quiz-section {
+            background: linear-gradient(135deg, #74b9ff 0%, #0984e3 100%);
+            color: white;
+            padding: 2rem;
+            border-radius: 12px;
+            margin: 2rem 0;
+        }
+
+        .quiz-question {
+            background: rgba(255,255,255,0.1);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+        }
+
+        .quiz-options {
+            display: grid;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .quiz-option {
+            background: rgba(255,255,255,0.2);
+            padding: 0.75rem;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .quiz-option:hover {
+            background: rgba(255,255,255,0.3);
+        }
+
+        .quiz-option.correct {
+            background: #00b894;
+        }
+
+        .quiz-option.wrong {
+            background: #e17055;
+        }
+    </style>
+</head>
+<body class="fullscreen-page">
+    <!-- Header Navigation -->
+    <header class="page-header">
+        <div class="header-content">
+            <a href="index.html" class="back-button">
+                <span class="back-icon">←</span>
+                <span class="back-text">العودة للرئيسية</span>
+            </a>
+            <div class="page-title">
+                <span class="page-icon">🌿</span>
+                <h1>فهم الـ Branches في Git</h1>
+            </div>
+            <div class="header-brand">
+                <span>المجلس التقني</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="fullscreen-content">
+        <div class="content-section">
+            <h2>📋 ما هو الـ Branch؟</h2>
+            <p>الـ Branch (الفرع) هو خط تطوير منفصل يسمح لك بالعمل على ميزات مختلفة دون التأثير على الكود الرئيسي. تخيل الفرع كطريق جانبي يسمح لك بالتجريب والتطوير بحرية.</p>
+
+            <div class="company-example">
+                <h3 style="text-align: center; margin-bottom: 2rem;">🏢 مثال عملي: شركة تطوير التطبيقات</h3>
+                
+                <div class="company-intro">
+                    <div class="company-card">
+                        <h4>🚀 شركة "تطبيقاتي"</h4>
+                        <p>شركة ناشئة تطور تطبيق للتجارة الإلكترونية. الفريق مكون من:</p>
+                        <div class="team-members">
+                            <div class="member">
+                                <span class="member-icon">👨‍💻</span>
+                                <span><strong>أحمد</strong> - مطور Frontend</span>
+                            </div>
+                            <div class="member">
+                                <span class="member-icon">👩‍💻</span>
+                                <span><strong>فاطمة</strong> - مطورة Backend</span>
+                            </div>
+                            <div class="member">
+                                <span class="member-icon">👨‍💼</span>
+                                <span><strong>خالد</strong> - مدير المشروع</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="workflow-scenarios">
+                    <div class="scenario-timeline">
+                        <h4>📅 سيناريو العمل اليومي</h4>
+                        
+                        <div class="timeline-item">
+                            <div class="timeline-marker main">main</div>
+                            <div class="timeline-content">
+                                <h5>🌅 بداية اليوم</h5>
+                                <p><strong>الفرع الرئيسي (main):</strong> يحتوي على الكود المستقر والجاهز للإنتاج</p>
+                                <div class="code-example">
+                                    <code>التطبيق الأساسي: صفحة المنتجات + نظام الدفع البسيط</code>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="timeline-item">
+                            <div class="timeline-marker feature">feature</div>
+                            <div class="timeline-content">
+                                <h5>🛒 أحمد يطور ميزة السلة</h5>
+                                <p><strong>فرع جديد:</strong> <code>feature-shopping-cart</code></p>
+                                <div class="developer-work">
+                                    <div class="work-step">
+                                        <span class="step-num">1</span>
+                                        <span>ينشئ فرع جديد من main</span>
+                                    </div>
+                                    <div class="work-step">
+                                        <span class="step-num">2</span>
+                                        <span>يطور واجهة السلة</span>
+                                    </div>
+                                    <div class="work-step">
+                                        <span class="step-num">3</span>
+                                        <span>يختبر الميزة بشكل منفصل</span>
+                                    </div>
+                                </div>
+                                <div class="git-commands">
+                                    <div class="command-line">$ git checkout -b feature-shopping-cart</div>
+                                    <div class="command-line">$ git add cart-component.js</div>
+                                    <div class="command-line">$ git commit -m "Add shopping cart UI"</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="timeline-item">
+                            <div class="timeline-marker feature">feature</div>
+                            <div class="timeline-content">
+                                <h5>💳 فاطمة تطور نظام الدفع</h5>
+                                <p><strong>فرع موازي:</strong> <code>feature-payment-gateway</code></p>
+                                <div class="parallel-work">
+                                    <div class="work-benefit">
+                                        <span class="benefit-icon">✨</span>
+                                        <span>تعمل بشكل مستقل عن أحمد</span>
+                                    </div>
+                                    <div class="work-benefit">
+                                        <span class="benefit-icon">🛡️</span>
+                                        <span>لا تؤثر على عمل الآخرين</span>
+                                    </div>
+                                    <div class="work-benefit">
+                                        <span class="benefit-icon">🚀</span>
+                                        <span>يمكن تطويرها بسرعة</span>
+                                    </div>
+                                </div>
+                                <div class="git-commands">
+                                    <div class="command-line">$ git checkout -b feature-payment-gateway</div>
+                                    <div class="command-line">$ git add PayPal-API.js</div>
+                                    <div class="command-line">$ git commit -m "Integrate PayPal API"</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="timeline-item">
+                            <div class="timeline-marker hotfix">hotfix</div>
+                            <div class="timeline-content">
+                                <h5>🚨 مشكلة عاجلة في الإنتاج!</h5>
+                                <p><strong>فرع الإصلاح العاجل:</strong> <code>hotfix-login-bug</code></p>
+                                <div class="urgent-scenario">
+                                    <div class="problem">
+                                        <span class="problem-icon">⚠️</span>
+                                        <span>المستخدمون لا يستطيعون تسجيل الدخول!</span>
+                                    </div>
+                                    <div class="solution">
+                                        <span class="solution-icon">🔧</span>
+                                        <span>خالد ينشئ فرع إصلاح عاجل من main</span>
+                                    </div>
+                                    <div class="result">
+                                        <span class="result-icon">✅</span>
+                                        <span>يصلح المشكلة ويدمجها فوراً</span>
+                                    </div>
+                                </div>
+                                <div class="git-commands urgent">
+                                    <div class="command-line">$ git checkout -b hotfix-login-bug</div>
+                                    <div class="command-line">$ git add hotfix-login.js</div>
+                                    <div class="command-line">$ git commit -m "Fix login validation error"</div>
+                                    <div class="command-line">$ git checkout main && git merge hotfix-login-bug</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="timeline-item">
+                            <div class="timeline-marker merge">merge</div>
+                            <div class="timeline-content">
+                                <h5>🎉 وقت الدمج</h5>
+                                <p><strong>دمج الميزات المكتملة</strong></p>
+                                <div class="merge-process">
+                                    <div class="merge-step">
+                                        <span class="merge-icon">👨‍💻</span>
+                                        <span>أحمد ينهي ميزة السلة</span>
+                                    </div>
+                                    <div class="merge-step">
+                                        <span class="merge-icon">🔍</span>
+                                        <span>فريق المراجعة يختبر الكود</span>
+                                    </div>
+                                    <div class="merge-step">
+                                        <span class="merge-icon">✅</span>
+                                        <span>دمج في الفرع الرئيسي</span>
+                                    </div>
+                                    <div class="merge-step">
+                                        <span class="merge-icon">🚀</span>
+                                        <span>نشر للمستخدمين</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="benefits-section">
+                    <h4>💡 فوائد استخدام الفروع في الشركة</h4>
+                    <div class="benefits-grid">
+                        <div class="benefit-card">
+                            <div class="benefit-icon">🔄</div>
+                            <h5>العمل المتوازي</h5>
+                            <p>كل مطور يعمل على ميزة مختلفة دون تداخل</p>
+                        </div>
+                        <div class="benefit-card">
+                            <div class="benefit-icon">🛡️</div>
+                            <h5>الأمان</h5>
+                            <p>الكود الرئيسي محمي من التغييرات التجريبية</p>
+                        </div>
+                        <div class="benefit-card">
+                            <div class="benefit-icon">🔍</div>
+                            <h5>المراجعة</h5>
+                            <p>يمكن مراجعة كل ميزة قبل الدمج</p>
+                        </div>
+                        <div class="benefit-card">
+                            <div class="benefit-icon">⚡</div>
+                            <h5>الإصلاح السريع</h5>
+                            <p>إصلاح المشاكل العاجلة دون انتظار</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2>🎮 الملعب التفاعلي للأوامر</h2>
+            <div class="branch-playground">
+                <h3>جرب أوامر Git للفروع</h3>
+                <p>اكتب الأوامر أدناه وشاهد النتيجة:</p>
+                
+                <div class="interactive-commands">
+                    <div class="command-input">
+                        <span style="color: #666;">$</span>
+                        <input type="text" id="git-command" placeholder="مثال: git branch feature-new" />
+                        <button class="execute-btn" onclick="executeGitCommand()">تنفيذ</button>
+                    </div>
+                    
+                    <div class="output-terminal" id="command-output">مرحباً! جرب كتابة أوامر Git هنا...
+
+أوامر مفيدة للتجربة:
+• git branch                    - عرض جميع الفروع
+• git branch feature-new        - إنشاء فرع جديد
+• git checkout feature-new      - الانتقال للفرع
+• git checkout -b feature-test  - إنشاء والانتقال للفرع
+• git merge feature-new         - دمج الفرع
+• git branch -d feature-new     - حذف الفرع</div>
+
+                    <div style="margin-top: 1rem;">
+                        <button class="execute-btn" onclick="clearTerminal()" style="background: #6c757d;">مسح الشاشة</button>
+                        <button class="execute-btn" onclick="showHelpCommands()" style="background: #17a2b8;">عرض المساعدة</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2>🎯 سيناريوهات عملية</h2>
+            <div class="scenario-cards">
+                <div class="scenario-card">
+                    <div class="scenario-title">🆕 إضافة ميزة جديدة</div>
+                    <p>تريد إضافة ميزة تسجيل دخول جديدة دون التأثير على الكود الرئيسي.</p>
+                    <div class="git-tree">git checkout -b feature-login
+git add login.html
+git commit -m "Add login page"
+git checkout main
+git merge feature-login</div>
+                    <button class="try-button" onclick="runScenario('newFeature')">جرب هذا السيناريو</button>
+                </div>
+
+                <div class="scenario-card">
+                    <div class="scenario-title">🚨 إصلاح عاجل</div>
+                    <p>اكتشفت خطأ في الإنتاج ويجب إصلاحه فوراً.</p>
+                    <div class="git-tree">git checkout main
+git checkout -b hotfix-critical
+# إصلاح الخطأ
+git add .
+git commit -m "Fix critical bug"
+git checkout main
+git merge hotfix-critical</div>
+                    <button class="try-button" onclick="runScenario('hotfix')">جرب هذا السيناريو</button>
+                </div>
+
+                <div class="scenario-card">
+                    <div class="scenario-title">🔬 تجريب فكرة</div>
+                    <p>لديك فكرة جديدة وتريد تجربتها دون المخاطرة بالكود الموجود.</p>
+                    <div class="git-tree">git checkout -b experiment-ui
+# جرب تغييرات جذرية
+git add .
+git commit -m "Experimental UI changes"
+# إذا لم تعجبك النتيجة
+git checkout main
+git branch -D experiment-ui</div>
+                    <button class="try-button" onclick="runScenario('experiment')">جرب هذا السيناريو</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2>📊 حالات الفروع</h2>
+            
+            <div class="branch-status">
+                <h4>✅ فرع محدث (Up to date)</h4>
+                <p>فرعك يحتوي على جميع التغييرات من الفرع الرئيسي.</p>
+            </div>
+
+            <div class="branch-status ahead">
+                <h4>⬆️ فرع متقدم (Ahead)</h4>
+                <p>فرعك يحتوي على commits جديدة لم يتم دمجها بعد في الفرع الرئيسي.</p>
+            </div>
+
+            <div class="branch-status behind">
+                <h4>⬇️ فرع متأخر (Behind)</h4>
+                <p>الفرع الرئيسي يحتوي على تغييرات جديدة لم تصل إلى فرعك بعد.</p>
+            </div>
+        </div>
+
+        <div class="quiz-section">
+            <h2>🧠 اختبر فهمك</h2>
+            
+            <div class="quiz-question">
+                <h4>السؤال الأول: ما هو الأمر الصحيح لإنشاء فرع جديد والانتقال إليه مباشرة؟</h4>
+                <div class="quiz-options">
+                    <div class="quiz-option" onclick="answerQuiz(this, false)">git branch new-feature</div>
+                    <div class="quiz-option" onclick="answerQuiz(this, true)">git checkout -b new-feature</div>
+                    <div class="quiz-option" onclick="answerQuiz(this, false)">git create new-feature</div>
+                    <div class="quiz-option" onclick="answerQuiz(this, false)">git switch new-feature</div>
+                </div>
+            </div>
+
+            <div class="quiz-question">
+                <h4>السؤال الثاني: ما هي الفائدة الرئيسية من استخدام الفروع في Git؟</h4>
+                <div class="quiz-options">
+                    <div class="quiz-option" onclick="answerQuiz(this, false)">تسريع عملية التطوير فقط</div>
+                    <div class="quiz-option" onclick="answerQuiz(this, true)">العمل على ميزات مختلفة بشكل منفصل دون التأثير على الكود الرئيسي</div>
+                    <div class="quiz-option" onclick="answerQuiz(this, false)">توفير مساحة تخزين على الحاسوب</div>
+                    <div class="quiz-option" onclick="answerQuiz(this, false)">تقليل عدد الملفات في المشروع</div>
+                </div>
+            </div>
+
+            <div class="quiz-question">
+                <h4>السؤال الثالث: ما هو الأمر الصحيح لحذف فرع محلي؟</h4>
+                <div class="quiz-options">
+                    <div class="quiz-option" onclick="answerQuiz(this, false)">git remove branch-name</div>
+                    <div class="quiz-option" onclick="answerQuiz(this, true)">git branch -d branch-name</div>
+                    <div class="quiz-option" onclick="answerQuiz(this, false)">git delete branch-name</div>
+                    <div class="quiz-option" onclick="answerQuiz(this, false)">git branch --remove branch-name</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2>💡 نصائح:</h2>
+            <div class="tips-grid">
+                <div class="tip-card">
+                    <h4>🎯 أسماء الفروع الواضحة</h4>
+                    <p>استخدم أسماء وصفية مثل <code>feature-login</code> أو <code>bugfix-payment</code> بدلاً من <code>my-branch</code>.</p>
+                </div>
+                
+                <div class="tip-card">
+                    <h4>🧹 تنظيف الفروع</h4>
+                    <p>احذف الفروع المدموجة بانتظام باستخدام <code>git branch -d branch-name</code> للحفاظ على نظافة المشروع.</p>
+                </div>
+                
+                <div class="tip-card">
+                    <h4>🔄 التحديث المستمر</h4>
+                    <p>اسحب التغييرات من <code>main</code> بانتظام إلى فرعك باستخدام <code>git merge main</code> أو <code>git rebase main</code>.</p>
+                </div>
+                
+                <div class="tip-card">
+                    <h4>🎨 استراتيجية الفروع</h4>
+                    <p>اتفق مع فريقك على استراتيجية واضحة: متى تنشئ فرعاً؟ كيف تسميه؟ متى تدمجه؟</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="navigation-section">
+            <a href="index.html" class="back-to-home-btn">
+                <span class="back-icon">🏠</span>
+                <span>العودة إلى الصفحة الرئيسية</span>
+            </a>
+        </div>
+    </main>
+
+    <script>
+        // متغيرات لمحاكاة حالة Git
+        let currentBranch = 'main';
+        let branches = ['main'];
+        let commits = {
+            'main': ['Initial commit', 'Add README']
+        };
+
+        // تنفيذ أوامر Git المحاكاة
+        function executeGitCommand() {
+            const command = document.getElementById('git-command').value.trim();
+            const output = document.getElementById('command-output');
+            
+            if (!command) return;
+            
+            let result = `$ ${command}\n`;
+            
+            if (command.startsWith('git branch')) {
+                if (command === 'git branch') {
+                    result += branches.map(b => b === currentBranch ? `* ${b}` : `  ${b}`).join('\n');
+                } else {
+                    const branchName = command.split(' ')[2];
+                    if (branchName && !branches.includes(branchName)) {
+                        branches.push(branchName);
+                        commits[branchName] = [...commits[currentBranch]];
+                        result += `تم إنشاء الفرع '${branchName}'`;
+                    } else if (branchName) {
+                        result += `الفرع '${branchName}' موجود بالفعل`;
+                    }
+                }
+            } else if (command.startsWith('git checkout')) {
+                const parts = command.split(' ');
+                if (parts.includes('-b')) {
+                    const branchName = parts[parts.length - 1];
+                    if (!branches.includes(branchName)) {
+                        branches.push(branchName);
+                        commits[branchName] = [...commits[currentBranch]];
+                        currentBranch = branchName;
+                        result += `تم إنشاء والانتقال إلى الفرع '${branchName}'`;
+                    } else {
+                        result += `الفرع '${branchName}' موجود بالفعل`;
+                    }
+                } else {
+                    const branchName = parts[2];
+                    if (branches.includes(branchName)) {
+                        currentBranch = branchName;
+                        result += `تم الانتقال إلى الفرع '${branchName}'`;
+                    } else {
+                        result += `خطأ: الفرع '${branchName}' غير موجود`;
+                    }
+                }
+            } else if (command.startsWith('git merge')) {
+                const branchName = command.split(' ')[2];
+                if (branches.includes(branchName) && branchName !== currentBranch) {
+                    result += `تم دمج الفرع '${branchName}' في '${currentBranch}'`;
+                    commits[currentBranch].push(`Merge branch '${branchName}'`);
+                } else {
+                    result += `خطأ: لا يمكن دمج الفرع '${branchName}'`;
+                }
+            } else if (command.includes('branch -d')) {
+                const branchName = command.split(' ')[3];
+                if (branches.includes(branchName) && branchName !== 'main' && branchName !== currentBranch) {
+                    branches = branches.filter(b => b !== branchName);
+                    delete commits[branchName];
+                    result += `تم حذف الفرع '${branchName}'`;
+                } else {
+                    result += `خطأ: لا يمكن حذف الفرع '${branchName}'`;
+                }
+            } else if (command === 'pwd') {
+                result += 'الفرع الحالي: ' + currentBranch;
+            } else if (command === 'clear') {
+                clearTerminal();
+                return;
+            } else {
+                result += `الأمر '${command}' غير مدعوم في هذا المحاكي\nجرب: git branch, git checkout, git merge`;
+            }
+            
+            output.textContent += '\n' + result + '\n';
+            output.scrollTop = output.scrollHeight;
+            document.getElementById('git-command').value = '';
+        }
+
+        // مسح الطرفية
+        function clearTerminal() {
+            document.getElementById('command-output').textContent = 'تم مسح الشاشة...\n';
+        }
+
+        // عرض أوامر المساعدة
+        function showHelpCommands() {
+            const output = document.getElementById('command-output');
+            const helpText = `
+📚 أوامر Git المتاحة في هذا المحاكي:
+
+الأوامر الأساسية:
+• git branch                    - عرض جميع الفروع
+• git branch <name>            - إنشاء فرع جديد
+• git checkout <branch>        - الانتقال لفرع موجود
+• git checkout -b <branch>     - إنشاء فرع جديد والانتقال إليه
+• git merge <branch>           - دمج فرع في الفرع الحالي
+• git branch -d <branch>       - حذف فرع
+
+أوامر إضافية:
+• pwd                          - عرض الفرع الحالي
+• clear                        - مسح الشاشة
+
+💡 نصيحة: جرب إنشاء فرع جديد ثم دمجه!
+`;
+            output.textContent += helpText;
+            output.scrollTop = output.scrollHeight;
+        }
+
+        // تشغيل السيناريوهات
+        function runScenario(scenario) {
+            const output = document.getElementById('command-output');
+            let scenarioText = '';
+            
+            switch(scenario) {
+                case 'newFeature':
+                    scenarioText = `
+🆕 سيناريو: إضافة ميزة جديدة
+
+$ git checkout -b feature-login
+تم إنشاء والانتقال إلى الفرع 'feature-login'
+
+$ git add login.html
+$ git commit -m "Add login page"
+[feature-login abc123] Add login page
+
+$ git checkout main
+تم الانتقال إلى الفرع 'main'
+
+$ git merge feature-login
+تم دمج الفرع 'feature-login' في 'main'
+
+✅ تم بنجاح! الميزة الجديدة أصبحت جزءاً من الكود الرئيسي.
+`;
+                    break;
+                    
+                case 'hotfix':
+                    scenarioText = `
+🚨 سيناريو: إصلاح عاجل
+
+$ git checkout main
+تم الانتقال إلى الفرع 'main'
+
+$ git checkout -b hotfix-critical
+تم إنشاء والانتقال إلى الفرع 'hotfix-critical'
+
+$ git add .
+$ git commit -m "Fix critical security bug"
+[hotfix-critical def456] Fix critical security bug
+
+$ git checkout main
+تم الانتقال إلى الفرع 'main'
+
+$ git merge hotfix-critical
+تم دمج الفرع 'hotfix-critical' في 'main'
+
+🔒 تم إصلاح الثغرة الأمنية بنجاح!
+`;
+                    break;
+                    
+                case 'experiment':
+                    scenarioText = `
+🔬 سيناريو: تجريب فكرة
+
+$ git checkout -b experiment-ui
+تم إنشاء والانتقال إلى الفرع 'experiment-ui'
+
+$ git add .
+$ git commit -m "Experimental UI changes"
+[experiment-ui ghi789] Experimental UI changes
+
+# بعد المراجعة... النتيجة لم تعجبني
+
+$ git checkout main
+تم الانتقال إلى الفرع 'main'
+
+$ git branch -D experiment-ui
+تم حذف الفرع 'experiment-ui' (حذف قسري)
+
+🗑️ تم حذف التجربة دون التأثير على الكود الرئيسي.
+`;
+                    break;
+            }
+            
+            output.textContent += scenarioText;
+            output.scrollTop = output.scrollHeight;
+        }
+
+        // إجابة الاختبار
+        function answerQuiz(element, isCorrect) {
+            const options = element.parentNode.querySelectorAll('.quiz-option');
+            options.forEach(opt => {
+                opt.style.pointerEvents = 'none';
+                if (opt === element) {
+                    opt.classList.add(isCorrect ? 'correct' : 'wrong');
+                } else if (opt.onclick && opt.onclick.toString().includes('true')) {
+                    opt.classList.add('correct');
+                }
+            });
+            
+            setTimeout(() => {
+                if (isCorrect) {
+                    alert('🎉 إجابة صحيحة! أحسنت!');
+                } else {
+                    alert('❌ إجابة خاطئة. جرب مرة أخرى!');
+                    options.forEach(opt => {
+                        opt.style.pointerEvents = 'auto';
+                        opt.classList.remove('correct', 'wrong');
+                    });
+                }
+            }, 1000);
+        }
+
+        // تفعيل Enter key للأوامر
+        document.getElementById('git-command').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                executeGitCommand();
+            }
+        });
+
+        // رسالة ترحيب
+        console.log('🌿 مرحباً بك في صفحة الفروع التفاعلية!');
+        console.log('💡 جرب الأوامر في المحاكي لفهم كيفية عمل Git branches');
+    </script>
+</body>
+</html>
