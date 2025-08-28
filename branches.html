@@ -554,7 +554,24 @@
             margin-bottom: 1.5rem;
         }
 
-        /* تخصيص للأجهزة الصغيرة */
+        /* تحسينات الاستجابة للأجهزة المحمولة */
+        
+        /* أجهزة لوحية */
+        @media (max-width: 1024px) {
+            .fullscreen-content {
+                padding: 1.5rem;
+            }
+            
+            .content-section {
+                padding: 2rem 1.5rem;
+            }
+            
+            .timeline-item {
+                padding: 1.5rem;
+            }
+        }
+        
+        /* هواتف محمولة كبيرة */
         @media (max-width: 768px) {
             .header-content {
                 padding: 0 1rem;
@@ -564,14 +581,17 @@
 
             .page-title {
                 order: -1;
+                text-align: center;
             }
 
             .page-title h1 {
                 font-size: 1.5rem;
+                line-height: 1.2;
             }
 
             .back-button, .header-brand {
                 font-size: 0.9rem;
+                padding: 0.5rem 1rem;
             }
 
             .fullscreen-content {
@@ -579,7 +599,120 @@
             }
 
             .content-section {
-                padding: 1.5rem;
+                padding: 1.5rem 1rem;
+            }
+            
+            .branch-playground {
+                padding: 1.5rem 1rem;
+                margin: 1.5rem 0;
+            }
+            
+            .git-tree {
+                padding: 1.5rem 1rem;
+                font-size: 12px;
+                overflow-x: auto;
+            }
+            
+            .timeline-section {
+                gap: 1rem;
+            }
+            
+            .timeline-item {
+                padding: 1.5rem 1rem;
+            }
+            
+            .timeline-item h4 {
+                font-size: 1rem;
+            }
+            
+            .quiz-container {
+                padding: 1.5rem 1rem;
+            }
+            
+            .quiz-options {
+                gap: 0.75rem;
+            }
+            
+            .quiz-option {
+                padding: 1rem;
+                font-size: 0.9rem;
+            }
+            
+            .commits-row {
+                gap: 0.5rem;
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+            
+            .commit {
+                font-size: 0.8rem;
+                padding: 0.4rem 0.8rem;
+            }
+        }
+        
+        /* هواتف محمولة صغيرة */
+        @media (max-width: 480px) {
+            .page-title h1 {
+                font-size: 1.25rem;
+            }
+            
+            .back-button, .header-brand {
+                font-size: 0.8rem;
+                padding: 0.4rem 0.8rem;
+            }
+            
+            .fullscreen-content {
+                padding: 0.75rem;
+            }
+            
+            .content-section {
+                padding: 1rem 0.75rem;
+            }
+            
+            .branch-playground {
+                padding: 1rem 0.75rem;
+                margin: 1rem 0;
+            }
+            
+            .git-tree {
+                padding: 1rem 0.75rem;
+                font-size: 11px;
+            }
+            
+            .timeline-item {
+                padding: 1rem 0.75rem;
+            }
+            
+            .timeline-item h4 {
+                font-size: 0.9rem;
+            }
+            
+            .timeline-item p {
+                font-size: 0.85rem;
+            }
+            
+            .quiz-container {
+                padding: 1rem 0.75rem;
+            }
+            
+            .quiz-container h3 {
+                font-size: 1.1rem;
+            }
+            
+            .quiz-option {
+                padding: 0.75rem;
+                font-size: 0.85rem;
+            }
+            
+            .commit {
+                font-size: 0.75rem;
+                padding: 0.3rem 0.6rem;
+                margin: 0.2rem;
+            }
+            
+            .back-to-home-btn {
+                padding: 0.75rem 1.5rem;
+                font-size: 0.9rem;
             }
         }
 
